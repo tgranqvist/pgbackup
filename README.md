@@ -8,15 +8,15 @@ encrypted using [age].
 
 Configuration is through environment variables.
 
-|Variable    |What                                         |Mandatory?|Default                   |
-|------------|---------------------------------------------|---------|---------------------------|
-AGE_RECIPIENT|The age public key to encrypt backup against |✔️      |                            | 
-DB_HOST      |The database host                            |✔️      |                            | 
-DB_PASS      |The password                                 |✔️      |                            |
-DB_NAME      |The database to back up                      |✔️      |                            |
-CRON_SCHEDULE|Cronatb schedule how often to run the backup |❌      |* */6 * * * (every 6th hour)|          
-DB_USER      |The user for connecting to the database      |❌      |postgres                    | 
-DB_PORT      |The port for connecting to the database      |❌      |5432                        |
+|Variable           |What                                         |Mandatory?|Default                    |
+|-------------------|---------------------------------------------|----------|---------------------------|
+|PGBAK_AGE_RECIPIENT|The age public key to encrypt backup against |✔️       |                            | 
+|PGBAK_DB_HOST      |The database host                            |✔️       |                            | 
+|PGBAK_DB_PASS      |The password                                 |✔️       |                            |
+|PGBAK_DB_NAME      |The database to back up                      |✔️       |                            |
+|PGBAK_CRON_SCHEDULE|Cronatb schedule how often to run the backup |❌       |* */6 * * * (every 6th hour)|          
+|PGBAK_DB_USER      |The user for connecting to the database      |❌       |postgres                    | 
+|PGBAK_DB_PORT      |The port for connecting to the database      |❌       |5432                        |
 
 If you are unfamiliar with crontab scheduling, see [crontab.guru].
 

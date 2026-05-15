@@ -13,14 +13,14 @@ require_env() {
 
 log "===# Backup container starting #==="
 
-require_env AGE_RECIPIENT
-require_env DB_HOST
-require_env DB_PASS
-require_env DB_NAME
+require_env PGBAK_AGE_RECIPIENT
+require_env PGBAK_DB_HOST
+require_env PGBAK_DB_PASSWORD
+require_env PGBAK_DB_NAME
 
-CRON_SCHEDULE="${CRON_SCHEDULE:-0 */6 * * *}"
-DB_USER="${DB_USER:-postgres}"
-DB_PORT="${DB_PORT:-5432}"
+cron_schedule="${PGBAK_CRON_SCHEDULE:-0 */6 * * *}"
+db_user="${PGBAK_DB_USER:-postgres}"
+db_port="${PGBAK_DB_PORT:-5432}"
 
 if [[ ! -d /backups ]]; then
   err "Output directory missing, exiting"
@@ -29,13 +29,18 @@ fi
 
 if [[ ! -f /etc/crontab ]]; then
   log "Generating crontab"
-  printf '%s %s\n' "$CRON_SCHEDULE" "/usr/local/bin/backup.sh" > /etc/crontab
+  printf '%s %s\n' "${cron_schedule}" "/usr/local/bin/backup.sh" > /etc/crontab
 fi
 
 log "Output location mounted"
-log "Schedule: $CRON_SCHEDULE"
-log "AGE recipient: ${AGE_RECIPIENT:0:16}"
+log "Schedule: ${cron_schedule}"
+log "AGE recipient: ${PGBAK_AGE_RECIPIENT:0:16}"
 
-export DB_USER DB_PORT
+# Set these in the container for pg_dump to use
+export PGHOST="${PGBAK_DB_HOST}"
+export PGPORT="${db_port}"
+export PGUSER="${db_user}"
+export PGPASSWORD="${PGBAK_DB_PASSWORD}"
+export PGDATABASE="${PGBAK_DB_NAME}"
 
 exec /usr/local/bin/supercronic -split-logs /etc/crontab

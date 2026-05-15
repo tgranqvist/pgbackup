@@ -24,12 +24,12 @@ services:
     build: ./backup
     environment:
       TZ: Europe/Helsinki
-      DB_HOST: postgres
-      DB_USER: ${POSTGRES_USER}
-      DB_PASS: ${POSTGRES_PASSWORD}
-      DB_NAME: testing
-      CRON_SCHEDULE: "* * * * *"
-      AGE_RECIPIENT: ${AGE_RECIPIENT}
+      PGBAK_DB_HOST: postgres
+      PGBAK_DB_USER: ${POSTGRES_USER}
+      PGBAK_DB_PASSWORD: ${POSTGRES_PASSWORD}
+      PGBAK_DB_NAME: testing
+      PGBAK_CRON_SCHEDULE: "* * * * *"
+      PGBAK_AGE_RECIPIENT: ${AGE_RECIPIENT}
       HEALTHCHECK_URL: ${HEALTHCHECK_URL}
     volumes:
       - ./output:/backups

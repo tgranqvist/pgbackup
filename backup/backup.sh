@@ -14,9 +14,9 @@ run_hooks() {
 
 run_hooks /hooks/pre
 
-filename="${DB_NAME}_$(date +'%Y%m%d%H%M%S').sql.zst.age"
-connection="postgres://${DB_USER}:${DB_PASS}@${DB_HOST}:${DB_PORT}/${DB_NAME}"
-if  pg_dump --dbname="$connection" | zstd | age -r "$AGE_RECIPIENT" > "/backups/$filename"
+filename="${PGBAK_DB_NAME}_$(date +'%Y%m%d%H%M%S').sql.zst.age"
+# connection="postgres://${PGBAK_DB_USER}:${PGBAK_DB_PASS}@${PGBAK_DB_HOST}:${PGBAK_DB_PORT}/${PGBAK_DB_NAME}"
+if  pg_dump | zstd | age -r "${PGBAK_AGE_RECIPIENT}" > "/backups/$filename"
 then
   run_hooks /hooks/post
 else
