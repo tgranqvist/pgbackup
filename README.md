@@ -38,12 +38,13 @@ curl -fsS --max-time 30 --retry 5 "${HEALTHCHECK_URL}/start" > /dev/null
 
 ## Example
 
-This repository has an example compose file to run the container. It features begin and end scripts
-that signal progress to [healthcheck.io].
+This repository has an example compose file to run the container. It stands up PostgreSQL, [Adminer],
+and pgbackup containers and features begin and end scripts that signal progress to [healthcheck.io].
 
 [PostgreSQL]: https://www.postgresql.org
 [Supercronic]: https://github.com/aptible/supercronic
 [zstd]: https://en.wikipedia.org/wiki/Zstd
 [age]: https://github.com/FiloSottile/age
 [crontab.guru]: https://crontab.guru/
+[Adminer]: https://adminer.org
 [healthcheck.io]: https://healthcheck.io
