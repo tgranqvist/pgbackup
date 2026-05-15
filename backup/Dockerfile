@@ -1,5 +1,9 @@
 FROM debian:trixie-20260406-slim
 
+LABEL org.opencontainers.image.authors="Tom Granqvist"
+LABEL org.opencontainers.image.source="https://github.com/tgranqvist/pgbackup"
+LABEL org.opencontainers.image.licenses="BSD-3-Clause"
+
 # Latest releases available at https://github.com/aptible/supercronic/releases
 ENV SUPERCRONIC_URL=https://github.com/aptible/supercronic/releases/download/v0.2.44/supercronic-linux-amd64 \
     SUPERCRONIC_SHA1SUM=6eb0a8e1e6673675dc67668c1a9b6409f79c37bc \
