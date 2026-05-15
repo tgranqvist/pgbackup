@@ -1,8 +1,8 @@
 # PostgreSQL backup
 
 This is a very simple backup image for containerized [PostgreSQL]. It runs a cron job using
-[Supercronic] that dumps the given database using `pg_dump`. The dump is encrypted using [age].
-Encryption is mandatory.
+[Supercronic] that dumps the given database using `pg_dump`. The dump is compressed using [zstd] and
+encrypted using [age].
 
 ## Configuration
 
@@ -18,14 +18,23 @@ CRON_SCHEDULE|Cronatb schedule how often to run the backup |❌      |* */6 * * 
 DB_USER      |The user for connecting to the database      |❌      |postgres                    | 
 DB_PORT      |The port for connecting to the database      |❌      |5432                        |
 
+If you are unfamiliar with crontab scheduling, see [crontab.guru].
+
 ## Volumes
 
 You need to provide an output location for the backups to `/backups`. 
 
-## Hook scripts
+## Lifecycle hooks
 
-Features pre, post, and failure hooks. Mount Bash scripts into `/hooks/{pre,post,fail}` to run them
-at the particular lifecycle event of the backup job. Can be used e.g. to signal a health check.
+Features `pre`, `post`, and `failure` hooks. Mount Bash scripts into `/hooks/{pre,post,fail}` to run
+them at the particular lifecycle event of the backup job. Can be used e.g. to signal a health check.
+
+If your hook scripts need parameters, e.g. healthcheck URL, ntfy topic or Slack channel, pass that
+as environment variable to the container and read it in the script:
+
+```bash
+curl -fsS --max-time 30 --retry 5 "${HEALTHCHECK_URL}/start" > /dev/null
+```
 
 ## Example
 
@@ -34,5 +43,7 @@ that signal progress to [healthcheck.io].
 
 [PostgreSQL]: https://www.postgresql.org
 [Supercronic]: https://github.com/aptible/supercronic
+[zstd]: https://en.wikipedia.org/wiki/Zstd
 [age]: https://github.com/FiloSottile/age
+[crontab.guru]: https://crontab.guru/
 [healthcheck.io]: https://healthcheck.io
