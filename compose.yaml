@@ -1,0 +1,39 @@
+services:
+  postgres:
+    image: postgres:17.9-alpine3.23
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - pgdata:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD", "pg_isready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+  
+  adminer:
+    image: adminer:5.4.2-standalone
+    ports:
+      - "5050:8080"
+
+  backup:
+    build: ./backup
+    environment:
+      TZ: Europe/Helsinki
+      NAME: Testing
+      DB_HOST: postgres
+      DB_USER: ${POSTGRES_USER}
+      DB_PASS: ${POSTGRES_PASSWORD}
+      DB_NAME: testing
+      CRON_SCHEDULE: "* * * * *"
+      AGE_RECIPIENT: age1vl8ufc58fl30e2d3vdregtvd8kzj6kwezuqyya4z4awun5largnswud0my
+      HEALTHCHECK_URL: ${HEALTHCHECK_URL}
+    volumes:
+      - ./output:/backups
+      - ./begin.sh:/hooks/pre/begin.sh:ro
+      - ./done.sh:/hooks/post/done.sh:ro
+
+volumes:
+  pgdata:
