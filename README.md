@@ -12,7 +12,7 @@ Configuration is through environment variables.
 |-------------------|---------------------------------------------|----------|---------------------------|
 |PGBAK_AGE_RECIPIENT|The age public key to encrypt backup against |✔️       |                            | 
 |PGBAK_DB_HOST      |The database host                            |✔️       |                            | 
-|PGBAK_DB_PASS      |The password                                 |✔️       |                            |
+|PGBAK_DB_PASSWORD      |The password                                 |✔️       |                            |
 |PGBAK_DB_NAME      |The database to back up                      |✔️       |                            |
 |PGBAK_CRON_SCHEDULE|Cronatb schedule how often to run the backup |❌       |* */6 * * * (every 6th hour)|          
 |PGBAK_DB_USER      |The user for connecting to the database      |❌       |postgres                    | 
