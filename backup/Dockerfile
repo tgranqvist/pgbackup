@@ -9,14 +9,17 @@ ENV SUPERCRONIC_URL=https://github.com/aptible/supercronic/releases/download/v0.
     SUPERCRONIC_SHA1SUM=6eb0a8e1e6673675dc67668c1a9b6409f79c37bc \
     SUPERCRONIC=supercronic-linux-amd64
 
+COPY pgdg.sources /etc/apt/sources.list.d/pgdg.sources
+
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    postgresql-client \
-    tzdata \
+    ca-certificates curl \
+ && curl -fsSL https://www.postgresql.org/media/keys/ACCC4CF8.asc \
+      -o /usr/share/keyrings/apt.postgresql.org.asc \
+ && apt-get update && apt-get install -y --no-install-recommends \
+    postgresql-client-18 \
     age \
-    curl \
-    ca-certificates \
     zstd \
-  && rm -rf /var/lib/apt/lists/*
+ && rm -rf /var/lib/apt/lists/*
 
 RUN curl -fsSLO "$SUPERCRONIC_URL" \
  && echo "${SUPERCRONIC_SHA1SUM}  ${SUPERCRONIC}" | sha1sum -c - \
