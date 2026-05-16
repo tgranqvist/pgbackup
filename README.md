@@ -39,7 +39,8 @@ curl -fsS --max-time 30 --retry 5 "${HEALTHCHECK_URL}/start" > /dev/null
 ## Example
 
 This repository has an example compose file to run the container. It stands up PostgreSQL, [Adminer],
-and pgbackup containers and features begin and end scripts that signal progress to [healthcheck.io].
+and pgbackup containers, creates a table with some data and has begin and end scripts that signal progress to [healthcheck.io]. The healt check URL is configured using a custom environment
+variable `HEALTHCHECK_URL` on the container.
 
 [PostgreSQL]: https://www.postgresql.org
 [Supercronic]: https://github.com/aptible/supercronic
