@@ -15,8 +15,14 @@ run_hooks() {
 run_hooks /hooks/pre
 
 filename="${PGBAK_DB_NAME}_$(date +'%Y%m%d%H%M%S').sql.zst.age"
-if  pg_dump | zstd | age -r "${PGBAK_AGE_RECIPIENT}" > "/backups/$filename"
+tmp_dir="$(mktemp -d)"
+tmp_file="${tmp_dir}/${filename}"
+
+trap "rm -rf $tmp_dir" EXIT
+
+if  pg_dump | zstd | age -r "${PGBAK_AGE_RECIPIENT}" > "$tmp_file"
 then
+  mv "$tmp_file" "/backups/$filename"
   run_hooks /hooks/post
 else
   run_hooks /hooks/fail
