@@ -2,7 +2,8 @@
 
 This is a very simple backup image for containerized [PostgreSQL]. It runs a cron job using
 [Supercronic] that dumps the given database using `pg_dump`. The dump is compressed using [zstd] and
-encrypted using [age].
+encrypted using [age]. This tool is single-database by intention, to keep things simple. If you
+need to back up several databases in the same Compose stack, launch multiple containers. 
 
 ## Configuration
 
@@ -12,7 +13,7 @@ Configuration is through environment variables.
 |-------------------|---------------------------------------------|----------|---------------------------|
 |PGBAK_AGE_RECIPIENT|The age public key to encrypt backup against |✔️       |                            | 
 |PGBAK_DB_HOST      |The database host                            |✔️       |                            | 
-|PGBAK_DB_PASSWORD      |The password                                 |✔️       |                            |
+|PGBAK_DB_PASSWORD  |The password                                 |✔️       |                            |
 |PGBAK_DB_NAME      |The database to back up                      |✔️       |                            |
 |PGBAK_CRON_SCHEDULE|Cronatb schedule how often to run the backup |❌       |* */6 * * * (every 6th hour)|          
 |PGBAK_DB_USER      |The user for connecting to the database      |❌       |postgres                    | 
@@ -39,8 +40,9 @@ curl -fsS --max-time 30 --retry 5 "${HEALTHCHECK_URL}/start" > /dev/null
 ## Example
 
 This repository has an example compose file to run the container. It stands up PostgreSQL, [Adminer],
-and pgbackup containers, creates a table with some data and has begin and end scripts that signal progress to [healthcheck.io]. The healt check URL is configured using a custom environment
-variable `HEALTHCHECK_URL` on the container.
+and pgbackup containers, creates a table with some data and has begin and end scripts that signal 
+progress to [healthcheck.io]. The healt check URL is configured using a custom environment variable
+`HEALTHCHECK_URL` on the container.
 
 [PostgreSQL]: https://www.postgresql.org
 [Supercronic]: https://github.com/aptible/supercronic
