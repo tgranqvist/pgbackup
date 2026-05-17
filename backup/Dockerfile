@@ -30,10 +30,10 @@ RUN curl -fsSLO "$SUPERCRONIC_URL" \
  && ln -s "/usr/local/bin/${SUPERCRONIC}" /usr/local/bin/supercronic
 
 COPY logging.sh /usr/local/bin/lib/logging.sh
-COPY entrypoint.sh /usr/local/bin/entrypoint.sh
-COPY backup.sh /usr/local/bin/backup.sh
+COPY backup.sh healthcheck.sh entrypoint.sh /usr/local/bin/
 
 RUN chmod +x /usr/local/bin/backup.sh
+RUN chmod +x /usr/local/bin/healthcheck.sh
 
 USER pgbak
 WORKDIR /home/pgbak
