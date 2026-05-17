@@ -29,7 +29,7 @@ fi
 
 if [[ ! -f /etc/crontab ]]; then
   log "Generating crontab"
-  printf '%s %s\n' "${cron_schedule}" "/usr/local/bin/backup.sh" > /etc/crontab
+  printf '%s %s\n' "${cron_schedule}" "/usr/local/bin/backup.sh" > /home/pgbak/crontab
 fi
 
 # Set these in the container for pg_dump to use
@@ -45,4 +45,4 @@ log "PostgreSQL client version: $(pg_dump --version | awk '{print $3}')"
 log "PostgreSQL server version: $(psql -Atc "SHOW server_version;")"
 log "AGE recipient: ${PGBAK_AGE_RECIPIENT:0:16}"
 
-exec /usr/local/bin/supercronic -split-logs /etc/crontab
+exec /usr/local/bin/supercronic -split-logs /home/pgbak/crontab

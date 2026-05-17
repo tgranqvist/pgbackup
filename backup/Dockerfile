@@ -4,10 +4,12 @@ LABEL org.opencontainers.image.authors="Tom Granqvist"
 LABEL org.opencontainers.image.source="https://github.com/tgranqvist/pgbackup"
 LABEL org.opencontainers.image.licenses="BSD-3-Clause"
 
-# Latest releases available at https://github.com/aptible/supercronic/releases
-ENV SUPERCRONIC_URL=https://github.com/aptible/supercronic/releases/download/v0.2.44/supercronic-linux-amd64 \
+ENV HOME=/home/pgbak \
+    SUPERCRONIC_URL=https://github.com/aptible/supercronic/releases/download/v0.2.44/supercronic-linux-amd64 \
     SUPERCRONIC_SHA1SUM=6eb0a8e1e6673675dc67668c1a9b6409f79c37bc \
     SUPERCRONIC=supercronic-linux-amd64
+
+RUN groupadd -r pgbak && useradd --no-log-init -r -g pgbak pgbak
 
 COPY pgdg.sources /etc/apt/sources.list.d/pgdg.sources
 
@@ -32,5 +34,8 @@ COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 COPY backup.sh /usr/local/bin/backup.sh
 
 RUN chmod +x /usr/local/bin/backup.sh
+
+USER pgbak
+WORKDIR /home/pgbak
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
