@@ -41,7 +41,7 @@ curl -fsS --max-time 30 --retry 5 "${HEALTHCHECK_URL}/start" > /dev/null
 
 This repository has an example compose file to run the container. It stands up PostgreSQL, [Adminer],
 and pgbackup containers, creates a table with some data and has begin and end scripts that signal 
-progress to [healthcheck.io]. The healt check URL is configured using a custom environment variable
+progress to [healthcheck.io]. The health check URL is configured using a custom environment variable
 `HEALTHCHECK_URL` on the container.
 
 [PostgreSQL]: https://www.postgresql.org
