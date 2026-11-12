@@ -22,7 +22,7 @@ services:
       - "5050:8080"
 
   backup:
-    build: ./backup
+    image: ghcr.io/tgranqvist/pgbackup:v2.1.0
     environment:
       TZ: Europe/Helsinki
       PGBAK_DB_HOST: postgres
